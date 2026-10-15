@@ -252,6 +252,21 @@ jobs:
           echo "Branch: ${{ github.ref_name }}"
           echo "Event: ${{ github.event_name }}"
 
+  compatibility_check:
+    needs: start
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check assembly environment
+        run: |
+          echo "Checking compatibility on ${{ matrix.os }}"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Run number: ${{ github.run_number }}"
+
+
   deploy_car:
     needs: test_car
     if: github.ref_name == 'main' || github.ref_name == 'master'
