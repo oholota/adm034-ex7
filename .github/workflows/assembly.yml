@@ -267,113 +267,29 @@ jobs:
           echo "Run number: ${{ github.run_number }}"
 
 
-
   deploy_car:
     needs: test_car
     if: github.ref_name == 'main' || github.ref_name == 'master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-    
-      - name: Download car artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: car-files
-          path: build/
-
-      - name: Authenticate deployment
-        uses: ./.github/actions/authenticate-deployment
-        with:
-          token: ${{ secrets.DEPLOY_TOKEN }}
-
-      - name: Deploy car
-        run: |
-          echo "Deploying car to production"
-          cat build/car.txt
-
-      - name: Upload failure artifact
-        if: failure()
-        uses: actions/upload-artifact@v6
-        with:
-          name: car-files-failure
-          path: build/car.txt
-          retention-days: 3
-
-      - name: Deployment complete
-        if: always()
-        run: echo "Deployment attempt complete for car"
+    uses: ./.github/workflows/deploy-vehicle.yml
+    with:
+      vehicle_name: car
+    secrets:
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
   deploy_motorbike:
     needs: test_motorbike
     if: github.ref_name == 'main' || github.ref_name == 'master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-    
-      - name: Download motorbike artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: motorbike-files
-          path: build/
-
-      - name: Authenticate deployment
-        env:
-          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          echo "Authenticating with token: $TOKEN"
-
-      - name: Deploy motorbike
-        run: |
-          echo "Deploying motorbike to production"
-          cat build/motorbike.txt
-
-      - name: Upload failure artifact
-        if: failure()
-        uses: actions/upload-artifact@v6
-        with:
-          name: motorbike-files-failure
-          path: build/motorbike.txt
-          retention-days: 3
-
-      - name: Deployment complete
-        if: always()
-        run: echo "Deployment attempt complete for motorbike"
+    uses: ./.github/workflows/deploy-vehicle.yml
+    with:
+      vehicle_name: motorbike
+    secrets:
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
   deploy_truck:
     needs: test_truck
     if: github.ref_name == 'main' || github.ref_name == 'master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-    
-      - name: Download truck artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: truck-files
-          path: build/
-
-      - name: Authenticate deployment
-        env:
-          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          echo "Authenticating with token: $TOKEN"
-
-      - name: Deploy truck
-        run: |
-          echo "Deploying truck to production"
-          cat build/truck.txt
-
-      - name: Upload failure artifact
-        if: failure()
-        uses: actions/upload-artifact@v6
-        with:
-          name: truck-files-failure
-          path: build/truck.txt
-          retention-days: 3
-
-      - name: Deployment complete
-        if: always()
-        run: echo "Deployment attempt complete for truck"
+    uses: ./.github/workflows/deploy-vehicle.yml
+    with:
+      vehicle_name: truck
+    secrets:
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
