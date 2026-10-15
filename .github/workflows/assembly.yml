@@ -254,6 +254,7 @@ jobs:
 
   deploy_car:
     needs: test_car
+    if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Download car artifact
@@ -287,6 +288,7 @@ jobs:
 
   deploy_motorbike:
     needs: test_motorbike
+    if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Download motorbike artifact
@@ -320,6 +322,7 @@ jobs:
 
   deploy_truck:
     needs: test_truck
+    if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Download truck artifact
