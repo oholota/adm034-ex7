@@ -257,7 +257,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-      fail-fast: false
+      fail-fast: true
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check assembly environment
@@ -265,6 +265,11 @@ jobs:
           echo "Checking compatibility on ${{ matrix.os }}"
           echo "Runner OS: ${{ runner.os }}"
           echo "Run number: ${{ github.run_number }}"
+
+      - name: Fail on Linux
+        if: runner.os == 'Linux'
+        run: exit 1
+
 
 
   deploy_car:
