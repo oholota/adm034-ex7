@@ -283,10 +283,9 @@ jobs:
           path: build/
 
       - name: Authenticate deployment
-        env:
-          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          echo "Authenticating with token: $TOKEN"
+        uses: ./.github/actions/authenticate-deployment
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Deploy car
         run: |
