@@ -266,10 +266,6 @@ jobs:
           echo "Runner OS: ${{ runner.os }}"
           echo "Run number: ${{ github.run_number }}"
 
-      - name: Fail on Linux
-        if: runner.os == 'Linux'
-        run: exit 1
-
 
 
   deploy_car:
@@ -277,6 +273,9 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
       - name: Download car artifact
         uses: actions/download-artifact@v7
         with:
@@ -311,6 +310,9 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
       - name: Download motorbike artifact
         uses: actions/download-artifact@v7
         with:
@@ -345,6 +347,9 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
       - name: Download truck artifact
         uses: actions/download-artifact@v7
         with:
